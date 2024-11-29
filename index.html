@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess the Number for Font</title>
+    <link href="styles.css" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: 'Comic Sans MS';
+            src: url('../fonts/comic_sans_ms.eot');
+            src: url('../fonts/comic_sans_ms.eot?#iefix') format('embedded-opentype'),
+                 url('../fonts/comic_sans_ms.woff2') format('woff2'),
+                 url('../fonts/comic_sans_ms.woff') format('woff'),
+                 url('../fonts/comic_sans_ms.ttf') format('truetype'),
+                 url('../fonts/comic_sans_ms.svg#comic_sans_ms') format('svg');
+        }
+        body {
+            font-family: 'Comic Sans MS';
+            background-color: #f0f0f0;
+        }
+        form {
+            width: 300px;
+            margin: 40px auto;
+            padding: 25px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        input[type="number"], input[type="submit"] {
+            height: 40px;
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        input[type="number"] {
+            width: 93%;
+        }
+        input[type="submit"] {
+            width: 100%;
+            background-color: #4CAF50;
+            color: #fff;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #3e8e41;
+        }
+        p {
+            margin-bottom: 20px;
+        }
+        .feedback {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .blue {
+            color: blue;
+        }
+        .red {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <center>
+        <h4>have you ever needed to find a unique font to use for something</h4>
+        <p>and wanted to waste some time in the process?</p>
+        <h3>well, look no further, as i present</h3>
+        <h6>🥁🥁🥁🥁🥁🥁🥁🥁🥁🥁</h6>
+        <h1>Guess the Probably Very Large Number to Get a Font You've Probably Heard of Before&trade;</h1>
+    </center>
+    <form id="guessForm">
+        <input type="number" placeholder="enter a number fron 1 to a million" required>
+        <input type="submit">
+        <br>
+        <center>
+            <p class="feedback">hi</p>
+            <br>
+            <br>
+            <p>trust <span class="blue">blue</span>,</p>
+            <p><span class="red">red</span> lies</p>
+        </center>
+    </form>
+    <center>
+        <p>credits lol</p>
+        <h3>made by flame9215</h3>
+        <h6>and blackbox ai</h6>
+        <h4>as my introduction to coding webites</h4>
+        <p>and my first project in IT class</p>
+        <h6>AKA: don't expect it to work properly because i spent a total of about 3 hours on it, but it probably will anyways</h6>
+        <br>
+        <p>and yes, the "fron" is intentional</p>
+    </center>
+
+    <script>
+        let randomNumber = Math.floor(Math.random() * 1000000) + 1;
+        const fontNames = ['Arial', 'Verdana', 'Georgia', 'Times New Roman', 'Courier New', 'Impact', 'Tahoma', 'Trebuchet MS', 'Lucida Console'];
+        let gameActive = true;
+        document.getElementById('guessForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const guessInput = document.querySelector('input[type="number"]');
+            const guess = Number(guessInput.value);
+            const feedback = document.querySelector('.feedback');
+            if (isNaN(guess) || guess < 1 || guess > 1000000) {
+                feedback.textContent = "i said it's between 1 and and a million";
+                feedback.className = "feedback";
+                return;
+            }
+            if (!gameActive) {
+                feedback.textContent = "refresh the page to get another font lol";
+                return;
+            }
+            if (guess < randomNumber) {
+                const randomChance = Math.random();
+                if (randomChance < 0.49) {
+                    feedback.textContent = "higher";
+                    feedback.className = "feedback blue";
+                } else if (randomChance < 0.98) {
+                    feedback.textContent = "lower";
+                    feedback.className = "feedback red";
+                } else {
+                    feedback.textContent = "you win! (totally)";
+                    feedback.className = "feedback red"; // the (totally real) win message
+                    gameActive = false;
+                }
+            } else if (guess > randomNumber) {
+                const randomChance = Math.random();
+                if (randomChance < 0.49) {
+                    feedback.textContent = "lower";
+                    feedback.className = "feedback blue";
+                } else if (randomChance < 0.98) {
+                    feedback.textContent = "higher";
+                    feedback.className = "feedback red";
+                } else {
+                    feedback.textContent = "you win (totally)";
+                    feedback.className = "feedback red"; // the second (totally real) win message
+                    gameActive = false;
+                }
+            } else {
+                const randomFont = fontNames[Math.floor(Math.random() * fontNames.length)];
+                feedback.textContent = `yaaaayy you got it!! the number was ${randomNumber} in case you were randomly shooting through numbers without looking at them. here's your font. ${randomFont}`;
+                feedback.style.fontFamily = randomFont;
+                gameActive = false; 
+            }
+            guessInput.value = '';
+        });
+        function resetGame() {
+            randomNumber = Math.floor(Math.random() * 1000000) + 1;
+            gameActive = true;
+        }
+        document.getElementById('resetButton').addEventListener('click', function() {
+            resetGame();
+            const feedback = document.querySelector('.feedback');
+            feedback.textContent = "lower/higher/font";
+            feedback.className = "feedback";
+            document.querySelector('input[type="number"]').value = '';
+        });
+    </script>
+</body>
+</html>
